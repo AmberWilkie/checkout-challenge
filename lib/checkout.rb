@@ -2,7 +2,7 @@ require 'pry'
 
 class Checkout
 
-  attr_accessor :total, :cart, :blanket, :lounger, :hotdog
+  attr_accessor :total, :cart, :blanket, :lounger, :hotdog, :pre_price
 
   def initalize
     #some kind of switch between promotions
@@ -11,8 +11,22 @@ class Checkout
 
   def scan(item)
     @cart << item
-    binding.pry
-
+    #the search of the hash and the values paired with "price" added together.
+    # hash_of_all_prices = cart.select {|item| item.include? }
+    pre_price = 0
+    cart.each do |item|
+      pre_price += item[:price]
+      # item.map { |iterate|
+      #   case
+      #   when iterate = :price
+      #     pre_price += item[:price]
+      #   else
+      #   end
+      #   binding.pry
+      #
+      # }
+    end
+    @total = pre_price
   end
 
   def create_items
