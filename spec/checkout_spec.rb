@@ -1,7 +1,9 @@
 require './lib/checkout.rb'
 
-describe 'Checkout' do
-
+describe Checkout do
+  # let(:promo) {'60 percent'}
+  subject {Checkout.new}
+  before {subject.create_items}
   it 'has a list of items' do
     expect(subject.blanket).not_to be nil
   end
@@ -10,9 +12,11 @@ describe 'Checkout' do
 
   end
 
-  before { subject.scan(blanket)}
+  before do
+    subject.scan(subject.blanket)
+  end
   it 'allows user to add items to cart' do
-    expect(subject.cart).not_to be nil
+    expect(subject.cart).not_to eq []
   end
 
   it 'totals items in the cart' do
