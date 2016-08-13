@@ -4,14 +4,14 @@ class Checkout
 
   attr_reader :total, :cart, :blanket, :lounger, :hotdog, :pre_price, :hotdog_hash, :promotion
 
-  def initialize(promo)
-    @promotion = promo
+  def initialize(promo = {})
+    @promotion = promo[:promo]
     @cart = []
     @blanket = {code: 1, desc: 'A soft and fluffy blanket', price: 19.95}
     @lounger = {code: 2, desc: 'A sturdy and attractive beach chair', price: 45.0}
     @hotdog = {code: 3, desc: 'An overpriced meat product', price: 9.25}
 
-    validate_promo(promo)
+    validate_promo(@promotion)
   end
 
   def scan(item)
@@ -33,7 +33,7 @@ class Checkout
 
   private
   def validate_promo(promo)
-    if !(promo = '60 bucks' || promo = 'hotdogs')
+    if !(promo == '60bucks' || promo == 'hotdogs' || promo == nil)
       raise 'Invalid promo'
     end
   end
