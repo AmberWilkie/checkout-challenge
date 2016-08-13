@@ -3,7 +3,6 @@ require './lib/checkout.rb'
 describe Checkout do
   # let(:promo) {'60 percent'}
   subject {Checkout.new}
-  before {subject.create_items}
   it 'has a list of items' do
     expect(subject.blanket).not_to be nil
   end
@@ -26,10 +25,14 @@ describe Checkout do
   describe 'Subject has checked out more than $60 of items' do
 
     before do
-      subject.scan(blanket)
-      subject.scan(lounger)
-      subject.scan(lounger)
-      subject.scan(hotdog)
+      subject.scan(subject.blanket)
+      subject.scan(subject.lounger)
+      subject.scan(subject.lounger)
+      subject.scan(subject.hotdog)
+    end
+
+    it 'allows for multiple items in cart' do
+      expect(subject.total).to be > 100
     end
 
     it 'gives a 10% discount when total goes over $60' do
@@ -39,6 +42,7 @@ describe Checkout do
 
   describe 'User has checked out two hotdogs' do
     before do
+      subject.create_items
       subject.scan(hotdog)
       subject.scan(hotdog)
     end
