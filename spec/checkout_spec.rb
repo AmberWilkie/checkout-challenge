@@ -46,7 +46,7 @@ describe Checkout do
     end
   end
 
-  describe 'User has checked out two hotdogs' do
+  describe 'User has scanned two hotdogs' do
     subject {described_class.new promo: 'hotdogs' }
     before do
       subject.scan(subject.hotdog)
@@ -59,5 +59,20 @@ describe Checkout do
 
 #Need to deal with having a product hash instead of just set variables
 #Might want to let a user remove a product from their cart (affecting hotdog discounts)
+#Need to set my tests to match Scope tests
+  end
+
+  describe 'User meets both discount requirements' do
+    subject {described_class.new promo: 'both' }
+    before do
+      subject.scan(subject.blanket)
+      subject.scan(subject.lounger)
+      subject.scan(subject.hotdog)
+      subject.scan(subject.hotdog)
+    end
+
+    it 'subtracts 10% AND reduces hot dog price' do
+      expect(subject.total).to be 73.76
+    end
   end
 end

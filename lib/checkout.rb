@@ -16,7 +16,7 @@ class Checkout
 
   def scan(item)
     @cart << item
-    pre_price = 0
+    pre_price = 0.0
     cart.each do |item|
       pre_price += item[:price]
     end
@@ -24,16 +24,24 @@ class Checkout
     case
     when promotion == '60bucks'
       sixty_bucks_promo(pre_price)
+      @total.round(2)
     when promotion == 'hotdogs'
-      hot_dog_promo(item, pre_price)
+      @total = pre_price - hot_dog_promo(item)
+      @total.round(2)
+    when promotion == 'both'
+      @total = sixty_bucks_promo(pre_price - hot_dog_promo(item)).round(2)
     else
-      @total = pre_price
+      @total = pre_price.round(2)
     end
+  end
+
+  def total
+    @total.round(2)
   end
 
   private
   def validate_promo(promo)
-    if !(promo == '60bucks' || promo == 'hotdogs' || promo == nil)
+    if !(promo == '60bucks' || promo == 'hotdogs' || promo == 'both' || promo == nil)
       raise 'Invalid promo'
     end
   end
@@ -43,12 +51,11 @@ class Checkout
      @total = pre_price*0.9 : @total = pre_price
   end
 
-  def hot_dog_promo(item, pre_price)
+  def hot_dog_promo(item)
     count = Hash.new(0)
     cart.each do |item| count[item] += 1
     end
-    if count[hotdog] >= 2
-      @total = pre_price - (count[hotdog]*0.75)
-    end
+    count[hotdog] >= 2 ? (count[hotdog]*0.75) : 0
+
   end
 end
