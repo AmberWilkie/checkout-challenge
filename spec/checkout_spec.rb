@@ -36,7 +36,7 @@ describe Checkout do
     end
 
     it 'gives a 10% discount when total goes over $60' do
-      expect(subject.total).to eq 1_340_971
+      expect(subject.total).to eq 139.15*0.9
     end
   end
 

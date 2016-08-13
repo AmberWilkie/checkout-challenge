@@ -20,7 +20,9 @@ class Checkout
     cart.each do |item|
       pre_price += item[:price]
     end
-    @total = pre_price
+    # binding.pry
+    pre_price > 60.0 ? @total = pre_price*0.9 : @total = pre_price
+
   end
 
 
