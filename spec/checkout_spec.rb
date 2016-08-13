@@ -1,18 +1,19 @@
 require './lib/checkout.rb'
 
 describe Checkout do
-  # let(:promo) {'60 percent'}
-  subject {Checkout.new}
+  let(:promo) { '60bucks' }
+  subject {Checkout.new promo}
   it 'has a list of items' do
     expect(subject.blanket).not_to be nil
   end
 
-  it 'can accept and set a promotion' do
-
-  end
+  # let(:promo) { 'nothing' }
+  # it 'can accept and set a promotion' do
+  #   expect{subject.scan(subject.blanket)}.to raise_error 'Invalid promo'
+  # end
 
   describe 'Basics' do
-
+    let(:promo) { '60bucks' }
     before { subject.scan(subject.blanket) }
 
     it 'allows user to add items to cart' do
@@ -24,6 +25,7 @@ describe Checkout do
     end
   end
   describe 'Subject has checked out more than $60 of items' do
+    subject { Checkout.new promo}
 
     before do
       subject.scan(subject.blanket)
@@ -42,21 +44,18 @@ describe Checkout do
   end
 
   describe 'User has checked out two hotdogs' do
+    let(:promo) { 'hotdogs' }
     before do
       subject.scan(subject.hotdog)
       subject.scan(subject.hotdog)
     end
 
-    # it 'counts the number of hot dogs in cart' do
-    #   expect(subject.count).not_to be nil
-    # end
-
     it 'reduces cost of hot dogs to 8.25' do
-      expect(subject.total).to be 16.50
+      expect(subject.total).to be 17.0
     end
 
-    #Need to deal with combining promos
-    #Need to deal with having a product hash instead of just set variables
-    #Might want to let a user remove a product from their cart (affecting hotdog discounts)
+#Need to deal with having a product hash instead of just set variables
+#Might want to deal with combining promos
+#Might want to let a user remove a product from their cart (affecting hotdog discounts)
   end
 end
