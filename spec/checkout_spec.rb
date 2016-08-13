@@ -33,16 +33,15 @@ describe Checkout do
     before do
       subject.scan(subject.blanket)
       subject.scan(subject.lounger)
-      subject.scan(subject.lounger)
       subject.scan(subject.hotdog)
     end
 
     it 'allows for multiple items in cart' do
-      expect(subject.total).to be > 100
+      expect(subject.total).to be > 60
     end
 
     it 'gives a 10% discount when total goes over $60' do
-      expect(subject.total).to eq 119.2*0.9
+      expect(subject.total).to eq 66.78
     end
   end
 
@@ -50,16 +49,13 @@ describe Checkout do
     subject {described_class.new promo: 'hotdogs' }
     before do
       subject.scan(subject.hotdog)
+      subject.scan(subject.blanket)
       subject.scan(subject.hotdog)
     end
 
     it 'reduces cost of hot dogs to 8.25' do
-      expect(subject.total).to be 17.0
+      expect(subject.total).to be 36.95
     end
-
-#Need to deal with having a product hash instead of just set variables
-#Might want to let a user remove a product from their cart (affecting hotdog discounts)
-#Need to set my tests to match Scope tests
   end
 
   describe 'User meets both discount requirements' do
@@ -76,3 +72,6 @@ describe Checkout do
     end
   end
 end
+
+#Need to deal with having a product hash instead of just set variables
+#Might want to let a user remove a product from their cart (affecting hotdog discounts)
