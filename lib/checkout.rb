@@ -2,7 +2,7 @@ require 'pry'
 
 class Checkout
 
-  attr_reader :total, :cart, :promotion, :pre_price, :products
+  attr_reader :total, :cart, :promotion, :pre_price, :products, :product
 
   def initialize(promo = {})
     @promotion = promo[:promo]
@@ -12,21 +12,27 @@ class Checkout
   end
 
   def scan(item)
-    product = @products.detect { |x| x[:name] == item}
-    @cart << product
-    pre_price = 0.0
-    cart.each do |x|
-      pre_price += x[:price]
-    end
-    give_promotion(pre_price)
+    @cart << find_item(item)
     total
   end
 
+  def remove_from_cart(item)
+    @cart.slice!(find_item(item)[:code])
+  end
+
   def total
+    pre_price = 0.0
+    cart.each { |x|
+      pre_price += x[:price] }
+    give_promotion(pre_price)
     @total.round(2)
   end
 
   private
+  def find_item(item)
+    @product = @products.detect { |x| x[:name] == item}
+  end
+
   def give_promotion(pre_price)
     case promotion
     when '60bucks'
@@ -52,12 +58,11 @@ class Checkout
   end
 
   def hot_dog_promo(item)
-    product = @products.detect { |x| x[:name] == item}
     count = Hash.new(0)
     cart.each do |x|
       count[x] += 1
     end
-    count[product] >= 2 ? (count[product]*0.75) : 0
+    count[find_item(item)] >= 2 ? (count[find_item(item)]*0.75) : 0
   end
 
   def set_products

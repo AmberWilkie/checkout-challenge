@@ -73,6 +73,39 @@ describe Checkout do
       expect(subject.total).to be 73.76
     end
   end
+
+  describe 'Customer removes a hot dog from cart' do
+
+    before do
+      subject.scan('blanket')
+      subject.scan('lounger')
+      subject.scan('hotdog')
+      subject.scan('hotdog')
+      subject.remove_from_cart('hotdog')
+    end
+
+    it 'removes item from cart' do
+      expect(subject.cart.length).to be 3
+    end
+
+    it 'removes discounts when requirements no longer met' do
+      expect(subject.total).to be 66.78
+    end
+  end
+
+  describe 'Customer goes under $60 by removing item' do
+    before do
+      subject.scan('blanket')
+      subject.scan('lounger')
+      subject.scan('hotdog')
+      subject.scan('hotdog')
+      subject.remove_from_cart('lounger')
+
+    it 'takes away 10% discount' do
+      expect(subject.total).to be 36.95
+    end
+    end
+  end
 end
 
 #Might want to let a user remove a product from their cart
