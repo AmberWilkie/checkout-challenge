@@ -17,7 +17,12 @@ class Checkout
   end
 
   def remove_from_cart(item)
-    @cart.slice!(find_item(item)[:code])
+    position_in_hash = 0
+    while @cart[position_in_hash] != find_item(item)
+      position_in_hash += 1
+    end
+    @cart.slice!(position_in_hash)
+    total
   end
 
   def total
@@ -29,6 +34,7 @@ class Checkout
   end
 
   private
+
   def find_item(item)
     @product = @products.detect { |x| x[:name] == item}
   end
@@ -40,10 +46,19 @@ class Checkout
     when 'hotdogs'
       @total = pre_price - hot_dog_promo('hotdog')
     when 'both'
-      @total = sixty_bucks_promo(pre_price) - hot_dog_promo('hotdog')*0.9
+      check_discounts(pre_price)
     else
       @total = pre_price
     end
+  end
+
+  def check_discounts(pre_price)
+    if sixty_bucks_promo(pre_price) == pre_price
+      hot_dog_discount = hot_dog_promo('hotdog')
+    else
+     hot_dog_discount = hot_dog_promo('hotdog')*0.9
+    end
+    @total = sixty_bucks_promo(pre_price) - hot_dog_discount
   end
 
   def validate_promo(promo)

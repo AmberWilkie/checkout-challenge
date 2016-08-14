@@ -94,18 +94,17 @@ describe Checkout do
   end
 
   describe 'Customer goes under $60 by removing item' do
+    subject { described_class.new promo: 'both'}
     before do
       subject.scan('blanket')
       subject.scan('lounger')
       subject.scan('hotdog')
       subject.scan('hotdog')
       subject.remove_from_cart('lounger')
-
-    it 'takes away 10% discount' do
-      expect(subject.total).to be 36.95
     end
+
+    it 'takes away 10% discount but keeps double hotdog discount' do
+      expect(subject.total).to be 36.95
     end
   end
 end
-
-#Might want to let a user remove a product from their cart
