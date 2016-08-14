@@ -2,19 +2,21 @@ require 'pry'
 
 class Checkout
 
-  attr_reader :total, :cart, :blanket, :lounger,
-  :hotdog, :pre_price, :hotdog_hash,
-  :promotion
+  attr_reader :total, :cart, :promotion, :pre_price, :products
+
+  #:blanket, :lounger, :hotdog,  :hotdog_hash
+
 
   def initialize(promo = {})
     @promotion = promo[:promo]
     @cart = []
-    set_products
+    @products = set_products
     validate_promo(@promotion)
   end
 
   def scan(item)
-    @cart << item
+    product = @products.detect { |product| product[:name] == item}
+    @cart << product
     pre_price = 0.0
     cart.each do |x|
       pre_price += x[:price]
@@ -54,17 +56,16 @@ class Checkout
     cart.each do |x|
       count[x] += 1
     end
-    count[hotdog] >= 2 ? (count[hotdog]*0.75) : 0
+    #binding.pry
+    count[@products[2]] >= 2 ? (count[@products[2]]*0.75) : 0
   end
 
   def set_products
-    @blanket = {code: 1, desc: 'A soft and fluffy blanket', price: 19.95}
-    @lounger = {
-      code: 2,
-      desc: 'A sturdy and
-       attractive beach chair',
-      price: 45.0
-    }
-    @hotdog = {code: 3, desc: 'An overpriced meat product', price: 9.25}
+    [
+      {code: 1, name: 'blanket', desc: 'A soft and fluffy blanket', price: 19.95},
+      {code: 2, name: 'lounger', desc: 'A sturdy and attractive beach chair', price: 45.0},
+      {code: 3, name: 'hotdog', desc: 'An overpriced meat product', price: 9.25}
+    ]
+
   end
 end
