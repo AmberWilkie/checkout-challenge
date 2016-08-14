@@ -75,7 +75,4 @@ describe Checkout do
   end
 end
 
-#Honestly, this is just not a very elegant solution to the
-# multiple promotion problem...
-#Need to deal with having a product hash instead of just set variables
 #Might want to let a user remove a product from their cart
