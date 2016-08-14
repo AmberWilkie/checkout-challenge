@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/thomas/CraftAcademy/student_work/amber/checkout-challenge/spec/checkout_spec.rb": [
+      "/Users/Henny/Development/CraftAcademy/checkout-challenge/spec/checkout_spec.rb": [
         1,
         null,
         1,
@@ -14,7 +14,9 @@
         null,
         2,
         1,
-        2,
+        1,
+        1,
+        null,
         null,
         null,
         null,
@@ -73,6 +75,8 @@
         null,
         1,
         1,
+        null,
+        null,
         null,
         null,
         null,
@@ -80,7 +84,7 @@
         null,
         null
       ],
-      "/Users/thomas/CraftAcademy/student_work/amber/checkout-challenge/lib/checkout.rb": [
+      "/Users/Henny/Development/CraftAcademy/checkout-challenge/lib/checkout.rb": [
         1,
         null,
         1,
@@ -153,6 +157,6 @@
         null
       ]
     },
-    "timestamp": 1471161665
+    "timestamp": 1471162409
   }
 }

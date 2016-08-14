@@ -10,7 +10,9 @@ describe Checkout do
 
     subject { described_class.new promo: 'grumpy'}
     it 'throws error if invalid promo entered' do
-      expect{ subject {described_class.new promo: 'invalid'}}.to raise_error 'Invalid promo'
+      expect do
+        subject {described_class.new promo: 'invalid'}
+      end.to raise_error 'Invalid promo'
     end
 
   end
@@ -73,5 +75,7 @@ describe Checkout do
   end
 end
 
+#Honestly, this is just not a very elegant solution to the
+# multiple promotion problem...
 #Need to deal with having a product hash instead of just set variables
-#Might want to let a user remove a product from their cart (affecting hotdog discounts)
+#Might want to let a user remove a product from their cart
