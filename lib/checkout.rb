@@ -20,6 +20,9 @@ class Checkout
     position_in_hash = 0
     while @cart[position_in_hash] != find_item(item)
       position_in_hash += 1
+      if position_in_hash >= @cart.length
+        raise 'Item not found'
+      end
     end
     @cart.slice!(position_in_hash)
     total
@@ -27,8 +30,9 @@ class Checkout
 
   def total
     pre_price = 0.0
-    cart.each { |x|
-      pre_price += x[:price] }
+    cart.each do |x|
+      pre_price += x[:price]
+    end
     give_promotion(pre_price)
     @total.round(2)
   end

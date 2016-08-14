@@ -107,4 +107,18 @@ describe Checkout do
       expect(subject.total).to be 36.95
     end
   end
+
+  describe 'Customer attempts to remove an item not in his cart' do
+    subject { described_class.new promo: 'both'}
+    before do
+      subject.scan('blanket')
+      subject.scan('lounger')
+      subject.scan('hotdog')
+      subject.scan('hotdog')
+    end
+
+    it 'throws an error' do
+      expect{ subject.remove_from_cart('adkj') }.to raise_error 'Item not found'
+    end
+  end
 end
